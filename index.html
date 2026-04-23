@@ -3,149 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pratik Ghadge - Data Analyst Portfolio</title>
+    <title>Pratik Ghadge | Data Analyst Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); scroll-behavior: smooth; }
-        header { background: white; padding: 1.5rem 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        header h2 { color: var(--primary); font-size: 1.5rem; font-weight: 700; }
-        nav a { margin-left: 1.5rem; text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: var(--primary); }
-        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; }
-        .hero { display: flex; flex-direction: column; justify-content: center; min-height: 70vh; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 0.5rem; color: var(--dark); }
-        .hero h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 400; }
-        .hero p { max-width: 700px; font-size: 1.1rem; color: var(--gray); margin-bottom: 2rem; }
-        .social-icons a { font-size: 1.5rem; color: var(--dark); margin-right: 1.2rem; transition: color 0.3s; text-decoration: none; }
-        .social-icons a:hover { color: var(--primary); }
-        .section-title { font-size: 2rem; margin-bottom: 2.5rem; border-bottom: 3px solid var(--primary); display: inline-block; padding-bottom: 0.5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; border-top: 4px solid transparent; }
-        .card:hover { transform: translateY(-5px); border-top: 4px solid var(--primary); }
-        .card h3 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;}
-        .card p { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.5rem; }
-        .tags span { display: inline-block; background: var(--light); color: var(--primary-dark); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; margin-bottom: 0.5rem; font-weight: 500; border: 1px solid #e2e8f0; }
-        .experience-item { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .experience-item h4 { font-size: 1.25rem; color: var(--dark); margin-bottom: 0.2rem;}
-        .experience-item .date { color: var(--primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; display: block; }
-        .experience-item .company { color: var(--gray); font-weight: 500; margin-bottom: 1rem; }
-        footer { background: var(--dark); color: white; text-align: center; padding: 3rem 2rem; margin-top: 2rem; }
-        footer i { color: var(--primary); margin-right: 0.5rem; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; padding: 2rem 5%; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; color: var(--text-main); }
+        .logo span { color: var(--accent); }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 2rem; font-weight: 400; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Hero Section */
+        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
+        .profile-pic { width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(45deg, var(--accent), #818cf8); margin-bottom: 2rem; padding: 4px; box-shadow: 0 0 20px var(--accent-glow); }
+        .profile-pic img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: var(--card-bg); }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero h2 { font-size: 1.5rem; color: var(--text-muted); font-weight: 300; margin-bottom: 2rem; }
+        .hero p { max-width: 600px; color: var(--text-muted); margin-bottom: 2.5rem; }
+        
+        /* Buttons & Socials */
+        .socials a { font-size: 1.8rem; color: var(--text-muted); margin: 0 15px; transition: all 0.3s ease; text-decoration: none; }
+        .socials a:hover { color: var(--accent); transform: translateY(-3px); }
+
+        /* General Section Styling */
+        section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 2.5rem; margin-bottom: 3rem; text-align: center; font-weight: 800; }
+        .section-title span { color: var(--accent); }
+
+        /* Skills Grid with Progress Bars */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .skill-card { background: var(--card-bg); padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .skill-card h3 { margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+        .skill-bar { margin-bottom: 1rem; }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .progress-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress { background: var(--accent); height: 100%; border-radius: 4px; }
+
+        /* Project Cards */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .project-card { background: var(--card-bg); padding: 2.5rem; border-radius: 15px; transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.05); }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px var(--accent-glow); }
+        .project-card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+        .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .tech-tags span { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; margin-right: 8px; display: inline-block; margin-bottom: 8px; }
+
+        /* Experience Timeline */
+        .timeline { border-left: 2px solid var(--accent); padding-left: 2rem; margin-left: 1rem; }
+        .timeline-item { margin-bottom: 3rem; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -39px; top: 0; width: 20px; height: 20px; background: var(--bg-dark); border: 2px solid var(--accent); border-radius: 50%; }
+        .timeline-date { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .timeline-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .timeline-company { color: var(--text-muted); font-size: 1rem; margin-bottom: 1rem; }
+
+        footer { text-align: center; padding: 3rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 3rem; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h2>PG.</h2>
-        <nav>
-            <a href="#about">About</a>
+    <nav>
+        <div class="logo">P<span>G.</span></div>
+        <div class="nav-links">
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#experience">Experience</a>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <div class="container">
-        <section class="hero" id="about">
-            <h1>Pratik Chandrakant Ghadge</h1>
-            <h3>Aspiring Data Analyst | AI & Data Science Engineer</h3>
-            <p>Final-year Artificial Intelligence and Data Science Engineering student at Shree Ramchandra College of Engineering. Experienced in building robust data pipelines, evaluating complex datasets, and deploying machine learning models to drive actionable insights.</p>
-            <div class="social-icons">
-                <a href="https://github.com/Pratikghadge09" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fas fa-envelope"></i></a>
-            </div>
-        </section>
+    <section class="hero">
+        <div class="profile-pic">
+            <img src="https://ui-avatars.com/api/?name=Pratik+Ghadge&background=1e293b&color=38bdf8&size=150" alt="Pratik Ghadge">
+        </div>
+        <h1>Pratik Ghadge</h1>
+        <h2>Aspiring Data Analyst | AI & Data Science</h2>
+        <p>Final-year Artificial Intelligence and Data Science Engineering student at Shree Ramchandra College of Engineering. I specialize in transforming complex data into actionable insights using advanced SQL, Python, and Machine Learning.</p>
+        <div class="socials">
+            <a href="https://github.com/Pratikghadge09" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </section>
 
-        <section id="skills">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3><i class="fas fa-code"></i> Python & Analytics</h3>
-                    <p>Advanced data manipulation, statistical analysis, and automation workflows.</p>
-                    <div class="tags">
-                        <span>Python</span><span>Pandas</span><span>NumPy</span><span>Matplotlib</span>
-                    </div>
+    <section id="skills">
+        <h2 class="section-title">Core <span>Skills</span></h2>
+        <div class="skills-grid">
+            
+            <div class="skill-card">
+                <h3><i class="fas fa-database"></i> SQL & Databases</h3>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>SQL Server & MySQL</span><span>90%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 90%;"></div></div>
                 </div>
-                <div class="card">
-                    <h3><i class="fas fa-database"></i> SQL & Databases</h3>
-                    <p>Complex queries, performance optimization, and robust database architecture.</p>
-                    <div class="tags">
-                        <span>SQL Server</span><span>MySQL</span><span>PostgreSQL</span>
-                    </div>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>PostgreSQL</span><span>85%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 85%;"></div></div>
                 </div>
-                <div class="card">
-                    <h3><i class="fas fa-chart-pie"></i> BI & Visualization</h3>
-                    <p>Creating interactive dashboards and compelling, data-driven narratives.</p>
-                    <div class="tags">
-                        <span>Power BI</span><span>DAX</span><span>Tableau</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
-                    <p>Predictive modeling, deep learning architectures, and model evaluation.</p>
-                    <div class="tags">
-                        <span>Scikit-Learn</span><span>Deep Learning</span><span>CNN-LSTM</span>
-                    </div>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>Data Warehousing</span><span>80%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 80%;"></div></div>
                 </div>
             </div>
-        </section>
 
-        <section id="projects">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Deepfake Video Detection Model</h3>
-                    <p>Developed a hybrid CNN-LSTM deep learning architecture as a final-year project to accurately detect manipulated and synthesized video content.</p>
-                    <div class="tags">
-                        <span>Python</span><span>Deep Learning</span><span>CNN</span><span>LSTM</span>
-                    </div>
+            <div class="skill-card">
+                <h3><i class="fab fa-python"></i> Python & Analytics</h3>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>Pandas & NumPy</span><span>85%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 85%;"></div></div>
                 </div>
-                <div class="card">
-                    <h3>SQL Data Warehouse Design</h3>
-                    <p>Engineered a comprehensive data warehouse utilizing a multi-layered schema approach (including Silver schemas) for efficient data staging and advanced analytics.</p>
-                    <div class="tags">
-                        <span>SQL Server</span><span>Data Modeling</span><span>ETL</span>
-                    </div>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>Matplotlib</span><span>80%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 80%;"></div></div>
                 </div>
-                <div class="card">
-                    <h3>Interactive Sales Analytics</h3>
-                    <p>Built comprehensive dashboards utilizing Power BI and DAX to transform raw datasets into executive-ready visual insights.</p>
-                    <div class="tags">
-                        <span>Power BI</span><span>DAX</span><span>Data Visualization</span>
-                    </div>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>Machine Learning</span><span>75%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 75%;"></div></div>
                 </div>
             </div>
-        </section>
 
-        <section id="experience">
-            <h2 class="section-title">Work Experience</h2>
-            <div class="experience-item">
-                <span class="date">September 2025 - Present</span>
-                <h4>Online Data Analyst</h4>
-                <div class="company"><i class="fas fa-building"></i> TELUS Digital</div>
-                <p>Performing technical analytics tasks, evaluating systems, and ensuring data quality across various internal platforms.</p>
+            <div class="skill-card">
+                <h3><i class="fas fa-chart-bar"></i> Business Intelligence</h3>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>Power BI</span><span>85%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-info"><span>DAX</span><span>80%</span></div>
+                    <div class="progress-bg"><div class="progress" style="width: 80%;"></div></div>
+                </div>
             </div>
-            <div class="experience-item">
-                <span class="date">September 2023 - November 2023</span>
-                <h4>Technology Intern</h4>
-                <div class="company"><i class="fas fa-building"></i> Brain-O-Vision</div>
-                <p>Assisted in technology implementations, developed foundational technical skills, and collaborated on organizational projects.</p>
+
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Featured <span>Projects</span></h2>
+        <div class="project-grid">
+            
+            <div class="project-card">
+                <h3>Deepfake Video Detection Model</h3>
+                <p>Developed a sophisticated hybrid CNN-LSTM deep learning architecture as a final-year project to accurately detect manipulated, synthesized, and deepfake video content.</p>
+                <div class="tech-tags">
+                    <span>Python</span><span>Deep Learning</span><span>CNN-LSTM</span>
+                </div>
             </div>
-        </section>
-    </div>
+
+            <div class="project-card">
+                <h3>SQL Data Warehouse Design</h3>
+                <p>Engineered a comprehensive data warehouse architecture utilizing a multi-layered approach (including Silver schema integration) to optimize data staging and advanced analytics.</p>
+                <div class="tech-tags">
+                    <span>SQL Server</span><span>ETL</span><span>Schema Design</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Interactive Sales Dashboards</h3>
+                <p>Designed and built comprehensive executive dashboards utilizing advanced DAX measures to transform raw datasets into clear, narrative-driven visual insights.</p>
+                <div class="tech-tags">
+                    <span>Power BI</span><span>DAX</span><span>Data Visualization</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Work <span>Experience</span></h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-date">September 2025 - Present</div>
+                <div class="timeline-title">Online Data Analyst</div>
+                <div class="timeline-company"><i class="fas fa-building"></i> TELUS Digital</div>
+                <p style="color: var(--text-muted);">Performing complex technical analytics tasks, evaluating systems, and ensuring strict data quality standards are met across various internal platforms.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">September 2023 - November 2023</div>
+                <div class="timeline-title">Technology Intern</div>
+                <div class="timeline-company"><i class="fas fa-building"></i> Brain-O-Vision</div>
+                <p style="color: var(--text-muted);">Assisted in core technology implementations, developed foundational technical skills, and collaborated actively on organizational development projects.</p>
+            </div>
+
+        </div>
+    </section>
 
     <footer>
-        <p><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra, India</p>
-        <p style="font-size: 0.85rem; margin-top: 0.8rem; color: #94a3b8;">Pratik Chandrakant Ghadge © 2026</p>
+        <p><i class="fas fa-map-marker-alt" style="color: var(--accent); margin-right: 8px;"></i> Pune, Maharashtra, India</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">Pratik Chandrakant Ghadge © 2026</p>
     </footer>
 
 </body>
