@@ -3,1326 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Data Analyst</title>
+    <title>Pratik Ghadge - Data Analyst Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
             --dark: #1e293b;
             --light: #f8fafc;
             --gray: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
         }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: var(--light);
-        }
-
-        /* Edit Mode Styles */
-        .editable {
-            border: 2px dashed transparent;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .edit-mode .editable {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.05);
-        }
-
-        .edit-mode .editable:hover {
-            background: rgba(37, 99, 235, 0.1);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .editable::after {
-            content: '✎';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--primary);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            opacity: 0;
-            transition: all 0.2s;
-        }
-
-        .edit-mode .editable:hover::after {
-            display: flex;
-            opacity: 1;
-        }
-
-        /* Edit Toolbar */
-        .edit-toolbar {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            z-index: 1000;
-            border: 2px solid var(--light);
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--gray);
-            color: white;
-        }
-
-        /* Modal for editing */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .edit-modal {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
-        }
-
-        .modal-header h2 {
-            color: var(--dark);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
-            color: white;
-            padding: 60px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-content {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .profile-img-container {
-            position: relative;
-        }
-
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .change-photo {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        .edit-mode .change-photo {
-            display: flex;
-        }
-
-        .change-photo:hover {
-            transform: scale(1.1);
-        }
-
-        .header-text h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, white 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-text .title {
-            font-size: 1.4rem;
-            color: #94a3b8;
-            margin-bottom: 20px;
-        }
-
-        .header-text .tagline {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 600px;
-            line-height: 1.7;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        /* Navigation */
-        nav {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-        }
-
-        .nav-links a {
-            display: block;
-            padding: 20px 0;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--primary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        /* Sections */
-        section {
-            padding: 80px 0;
-        }
-
-        section:nth-child(even) {
-            background: white;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
-
-        .skill-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            position: relative;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skill-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .skill-card h3 {
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .skill-level {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .skill-bar {
-            flex: 1;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-
-        .remove-skill {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--danger);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .edit-mode .remove-skill {
-            display: flex;
-        }
-
-        /* Projects */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .project-img {
-            height: 200px;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .change-project-img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            color: var(--dark);
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: none;
-            gap: 8px;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .edit-mode .change-project-img {
-            display: flex;
-        }
-
-        .project-content {
-            padding: 25px;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-
-        .tag {
-            background: var(--light);
-            color: var(--primary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .project-content h3 {
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .project-content p {
-            color: var(--gray);
-            margin-bottom: 20px;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .project-links a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .remove-project {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--danger);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .edit-mode .remove-project {
-            display: flex;
-        }
-
-        /* Experience */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            gap: 30px;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            position: relative;
-        }
-
-        .timeline-date {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .timeline-content h3 {
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .timeline-content .company {
-            color: var(--gray);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .timeline-content ul {
-            list-style: none;
-        }
-
-        .timeline-content li {
-            padding: 5px 0;
-            color: var(--gray);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .timeline-content li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-        }
-
-        .remove-experience {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--danger);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .edit-mode .remove-experience {
-            display: flex;
-        }
-
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: start;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--light);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        .contact-details h4 {
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .contact-details p {
-            color: var(--gray);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        /* Add buttons */
-        .add-btn {
-            display: none;
-            width: 100%;
-            padding: 20px;
-            border: 2px dashed var(--primary);
-            border-radius: 15px;
-            background: transparent;
-            color: var(--primary);
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
-        }
-
-        .add-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .edit-mode .add-btn {
-            display: block;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transform: translateX(400px);
-            transition: transform 0.3s;
-            z-index: 3000;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .profile-img-container {
-                margin: 0 auto;
-            }
-
-            .header-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                gap: 20px;
-                font-size: 0.9rem;
-            }
-
-            .timeline-item {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .hidden-file-input {
-            display: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); scroll-behavior: smooth; }
+        header { background: white; padding: 1.5rem 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        header h2 { color: var(--primary); font-size: 1.5rem; font-weight: 700; }
+        nav a { margin-left: 1.5rem; text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: var(--primary); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; }
+        .hero { display: flex; flex-direction: column; justify-content: center; min-height: 70vh; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 0.5rem; color: var(--dark); }
+        .hero h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 400; }
+        .hero p { max-width: 700px; font-size: 1.1rem; color: var(--gray); margin-bottom: 2rem; }
+        .social-icons a { font-size: 1.5rem; color: var(--dark); margin-right: 1.2rem; transition: color 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--primary); }
+        .section-title { font-size: 2rem; margin-bottom: 2.5rem; border-bottom: 3px solid var(--primary); display: inline-block; padding-bottom: 0.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; border-top: 4px solid transparent; }
+        .card:hover { transform: translateY(-5px); border-top: 4px solid var(--primary); }
+        .card h3 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;}
+        .card p { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .tags span { display: inline-block; background: var(--light); color: var(--primary-dark); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; margin-bottom: 0.5rem; font-weight: 500; border: 1px solid #e2e8f0; }
+        .experience-item { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .experience-item h4 { font-size: 1.25rem; color: var(--dark); margin-bottom: 0.2rem;}
+        .experience-item .date { color: var(--primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; display: block; }
+        .experience-item .company { color: var(--gray); font-weight: 500; margin-bottom: 1rem; }
+        footer { background: var(--dark); color: white; text-align: center; padding: 3rem 2rem; margin-top: 2rem; }
+        footer i { color: var(--primary); margin-right: 0.5rem; }
     </style>
 </head>
 <body>
-    <!-- Header -->
+
     <header>
-        <div class="header-bg" style="background-image: url('https://mcp-tools-z-image-turbo.hf.space/--replicas/pnprw/gradio_api/file=/tmp/gradio/7249b7a452d621005a94f9e83f65e3415157e07abd228436f9d581b1e7d84b86/image.webp')"></div>
-        <div class="container">
-            <div class="header-content">
-                <div class="profile-img-container">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Profile" class="profile-img" id="profileImage">
-                    <button class="change-photo" onclick="changePhoto()">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                    <input type="file" class="hidden-file-input" id="photoInput" accept="image/*" onchange="handlePhotoChange(event)">
-                </div>
-                <div class="header-text">
-                    <h1 class="editable" data-section="name">Alex Johnson</h1>
-                    <p class="title editable" data-section="title">Senior Data Analyst</p>
-                    <p class="tagline editable" data-section="tagline">Transforming complex data into actionable insights. Passionate about uncovering patterns, building predictive models, and driving data-informed decisions that create real business impact.</p>
-                    <div class="social-links" id="socialLinks">
-                        <a href="#" class="editable-link" data-type="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="editable-link" data-type="github"><i class="fab fa-github"></i></a>
-                        <a href="#" class="editable-link" data-type="twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="editable-link" data-type="email"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2>PG.</h2>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+        </nav>
     </header>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="#about" class="active">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="container">
+        <section class="hero" id="about">
+            <h1>Pratik Chandrakant Ghadge</h1>
+            <h3>Aspiring Data Analyst | AI & Data Science Engineer</h3>
+            <p>Final-year Artificial Intelligence and Data Science Engineering student at Shree Ramchandra College of Engineering. Experienced in building robust data pipelines, evaluating complex datasets, and deploying machine learning models to drive actionable insights.</p>
+            <div class="social-icons">
+                <a href="https://github.com/Pratikghadge09" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+        </section>
 
-    <!-- About/Stats Section -->
-    <section id="about">
-        <div class="container">
-            <div class="section-header">
-                <h2>About Me</h2>
-                <p class="editable" data-section="about">Results-driven Data Analyst with 5+ years of experience in statistical analysis, data visualization, and machine learning. Proven track record of delivering data-driven solutions that improve operational efficiency and drive revenue growth.</p>
+        <section id="skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3><i class="fas fa-code"></i> Python & Analytics</h3>
+                    <p>Advanced data manipulation, statistical analysis, and automation workflows.</p>
+                    <div class="tags">
+                        <span>Python</span><span>Pandas</span><span>NumPy</span><span>Matplotlib</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-database"></i> SQL & Databases</h3>
+                    <p>Complex queries, performance optimization, and robust database architecture.</p>
+                    <div class="tags">
+                        <span>SQL Server</span><span>MySQL</span><span>PostgreSQL</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-chart-pie"></i> BI & Visualization</h3>
+                    <p>Creating interactive dashboards and compelling, data-driven narratives.</p>
+                    <div class="tags">
+                        <span>Power BI</span><span>DAX</span><span>Tableau</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
+                    <p>Predictive modeling, deep learning architectures, and model evaluation.</p>
+                    <div class="tags">
+                        <span>Scikit-Learn</span><span>Deep Learning</span><span>CNN-LSTM</span>
+                    </div>
+                </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number editable" data-section="stat1">5+</div>
-                    <div class="stat-label editable" data-section="statLabel1">Years Experience</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number editable" data-section="stat2">50+</div>
-                    <div class="stat-label editable" data-section="statLabel2">Projects Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number editable" data-section="stat3">98%</div>
-                    <div class="stat-label editable" data-section="statLabel3">Client Satisfaction</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number editable" data-section="stat4">3</div>
-                    <div class="stat-label editable" data-section="statLabel4">Industry Awards</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="container">
-            <div class="section-header">
-                <h2>Technical Skills</h2>
-                <p>Proficient in modern data analytics tools and methodologies</p>
-            </div>
-            <div class="skills-grid" id="skillsGrid">
-                <div class="skill-card" data-skill-id="1">
-                    <button class="remove-skill" onclick="removeSkill(1)"><i class="fas fa-times"></i></button>
-                    <div class="skill-icon"><i class="fab fa-python"></i></div>
-                    <h3 class="editable" data-section="skill1">Python & Pandas</h3>
-                    <p class="editable" data-section="skillDesc1">Advanced data manipulation, analysis, and automation</p>
-                    <div class="skill-level">
-                        <span>95%</span>
-                        <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+        <section id="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Deepfake Video Detection Model</h3>
+                    <p>Developed a hybrid CNN-LSTM deep learning architecture as a final-year project to accurately detect manipulated and synthesized video content.</p>
+                    <div class="tags">
+                        <span>Python</span><span>Deep Learning</span><span>CNN</span><span>LSTM</span>
                     </div>
                 </div>
-                <div class="skill-card" data-skill-id="2">
-                    <button class="remove-skill" onclick="removeSkill(2)"><i class="fas fa-times"></i></button>
-                    <div class="skill-icon"><i class="fas fa-database"></i></div>
-                    <h3 class="editable" data-section="skill2">SQL & Databases</h3>
-                    <p class="editable" data-section="skillDesc2">Complex queries, optimization, database design</p>
-                    <div class="skill-level">
-                        <span>90%</span>
-                        <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                <div class="card">
+                    <h3>SQL Data Warehouse Design</h3>
+                    <p>Engineered a comprehensive data warehouse utilizing a multi-layered schema approach (including Silver schemas) for efficient data staging and advanced analytics.</p>
+                    <div class="tags">
+                        <span>SQL Server</span><span>Data Modeling</span><span>ETL</span>
                     </div>
                 </div>
-                <div class="skill-card" data-skill-id="3">
-                    <button class="remove-skill" onclick="removeSkill(3)"><i class="fas fa-times"></i></button>
-                    <div class="skill-icon"><i class="fas fa-chart-bar"></i></div>
-                    <h3 class="editable" data-section="skill3">Tableau & Power BI</h3>
-                    <p class="editable" data-section="skillDesc3">Interactive dashboards and data visualization</p>
-                    <div class="skill-level">
-                        <span>92%</span>
-                        <div class="skill-bar"><div class="skill-progress" style="width: 92%"></div></div>
-                    </div>
-                </div>
-                <div class="skill-card" data-skill-id="4">
-                    <button class="remove-skill" onclick="removeSkill(4)"><i class="fas fa-times"></i></button>
-                    <div class="skill-icon"><i class="fas fa-brain"></i></div>
-                    <h3 class="editable" data-section="skill4">Machine Learning</h3>
-                    <p class="editable" data-section="skillDesc4">Predictive modeling, scikit-learn, TensorFlow</p>
-                    <div class="skill-level">
-                        <span>85%</span>
-                        <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                <div class="card">
+                    <h3>Interactive Sales Analytics</h3>
+                    <p>Built comprehensive dashboards utilizing Power BI and DAX to transform raw datasets into executive-ready visual insights.</p>
+                    <div class="tags">
+                        <span>Power BI</span><span>DAX</span><span>Data Visualization</span>
                     </div>
                 </div>
             </div>
-            <button class="add-btn" onclick="addSkill()"><i class="fas fa-plus"></i> Add New Skill</button>
-        </div>
-    </section>
+        </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Projects</h2>
-                <p>Showcase of my data analytics work and achievements</p>
+        <section id="experience">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="experience-item">
+                <span class="date">September 2025 - Present</span>
+                <h4>Online Data Analyst</h4>
+                <div class="company"><i class="fas fa-building"></i> TELUS Digital</div>
+                <p>Performing technical analytics tasks, evaluating systems, and ensuring data quality across various internal platforms.</p>
             </div>
-            <div class="projects-grid" id="projectsGrid">
-                <div class="project-card" data-project-id="1">
-                    <button class="remove-project" onclick="removeProject(1)"><i class="fas fa-times"></i></button>
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Project 1">
-                        <button class="change-project-img" onclick="changeProjectImage(1)">
-                            <i class="fas fa-camera"></i> Change Image
-                        </button>
-                        <input type="file" class="hidden-file-input" id="projectImg1" accept="image/*" onchange="handleProjectImageChange(event, 1)">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag editable" data-section="tag1-1">Python</span>
-                            <span class="tag editable" data-section="tag1-2">Machine Learning</span>
-                        </div>
-                        <h3 class="editable" data-section="project1Title">Customer Churn Prediction</h3>
-                        <p class="editable" data-section="project1Desc">Built a machine learning model that predicts customer churn with 89% accuracy, helping the company reduce churn rate by 25% through targeted retention strategies.</p>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-project-id="2">
-                    <button class="remove-project" onclick="removeProject(2)"><i class="fas fa-times"></i></button>
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Project 2">
-                        <button class="change-project-img" onclick="changeProjectImage(2)">
-                            <i class="fas fa-camera"></i> Change Image
-                        </button>
-                        <input type="file" class="hidden-file-input" id="projectImg2" accept="image/*" onchange="handleProjectImageChange(event, 2)">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag editable" data-section="tag2-1">SQL</span>
-                            <span class="tag editable" data-section="tag2-2">Tableau</span>
-                        </div>
-                        <h3 class="editable" data-section="project2Title">Sales Analytics Dashboard</h3>
-                        <p class="editable" data-section="project2Desc">Created an interactive dashboard analyzing $10M+ in sales data, identifying key trends and opportunities that led to 15% revenue growth in Q4.</p>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-project-id="3">
-                    <button class="remove-project" onclick="removeProject(3)"><i class="fas fa-times"></i></button>
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Project 3">
-                        <button class="change-project-img" onclick="changeProjectImage(3)">
-                            <i class="fas fa-camera"></i> Change Image
-                        </button>
-                        <input type="file" class="hidden-file-input" id="projectImg3" accept="image/*" onchange="handleProjectImageChange(event, 3)">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag editable" data-section="tag3-1">NLP</span>
-                            <span class="tag editable" data-section="tag3-2">Python</span>
-                        </div>
-                        <h3 class="editable" data-section="project3Title">Sentiment Analysis Tool</h3>
-                        <p class="editable" data-section="project3Desc">Developed an NLP pipeline for analyzing customer reviews, providing real-time sentiment insights that improved product feedback response time by 60%.</p>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="experience-item">
+                <span class="date">September 2023 - November 2023</span>
+                <h4>Technology Intern</h4>
+                <div class="company"><i class="fas fa-building"></i> Brain-O-Vision</div>
+                <p>Assisted in technology implementations, developed foundational technical skills, and collaborated on organizational projects.</p>
             </div>
-            <button class="add-btn" onclick="addProject()"><i class="fas fa-plus"></i> Add New Project</button>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- Experience Section -->
-    <section id="experience">
-        <div class="container">
-            <div class="section-header">
-                <h2>Work Experience</h2>
-                <p>Professional journey and career highlights</p>
-            </div>
-            <div class="timeline" id="experienceTimeline">
-                <div class="timeline-item" data-exp-id="1">
-                    <button class="remove-experience" onclick="removeExperience(1)"><i class="fas fa-times"></i></button>
-                    <div class="timeline-date editable" data-section="expDate1">2022 - Present</div>
-                    <div class="timeline-content">
-                        <h3 class="editable" data-section="expRole1">Senior Data Analyst</h3>
-                        <div class="company editable" data-section="expCompany1"><i class="fas fa-building"></i> TechCorp Solutions</div>
-                        <ul>
-                            <li class="editable" data-section="expDesc1-1">Lead analytics team of 5 analysts, managing end-to-end data pipelines</li>
-                            <li class="editable" data-section="expDesc1-2">Reduced data processing time by 40% through automation initiatives</li>
-                            <li class="editable" data-section="expDesc1-3">Present insights to C-suite executives, influencing strategic decisions</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item" data-exp-id="2">
-                    <button class="remove-experience" onclick="removeExperience(2)"><i class="fas fa-times"></i></button>
-                    <div class="timeline-date editable" data-section="expDate2">2019 - 2022</div>
-                    <div class="timeline-content">
-                        <h3 class="editable" data-section="expRole2">Data Analyst</h3>
-                        <div class="company editable" data-section="expCompany2"><i class="fas fa-building"></i> DataDriven Inc.</div>
-                        <ul>
-                            <li class="editable" data-section="expDesc2-1">Developed 20+ dashboards used by 500+ employees company-wide</li>
-                            <li class="editable" data-section="expDesc2-2">Implemented A/B testing framework, improving conversion rates by 30%</li>
-                            <li class="editable" data-section="expDesc2-3">Collaborated with product teams to define and track KPIs</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add New Experience</button>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2>Get In Touch</h2>
-                <p>Let's connect and discuss how I can help with your data needs</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p class="editable" data-section="email">alex.johnson@email.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                        <div class="contact-details">
-                            <h4>Phone</h4>
-                            <p class="editable" data-section="phone">+1 (555) 123-4567</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="contact-details">
-                            <h4>Location</h4>
-                            <p class="editable" data-section="location">San Francisco, CA</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
-                        <div class="contact-details">
-                            <h4>LinkedIn</h4>
-                            <p class="editable" data-section="linkedin">linkedin.com/in/alexjohnson</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                        <h3 style="margin-bottom: 20px;">Send me a message</h3>
-                        <p style="color: var(--gray);">Contact form coming soon! In the meantime, please reach out via email or LinkedIn.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; <span class="editable" data-section="year">2024</span> <span class="editable" data-section="footerName">Alex Johnson</span>. All rights reserved.</p>
-            <p style="margin-top: 10px; opacity: 0.7; font-size: 0.9rem;">Built with ❤️ for data analytics</p>
-        </div>
+        <p><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra, India</p>
+        <p style="font-size: 0.85rem; margin-top: 0.8rem; color: #94a3b8;">Pratik Chandrakant Ghadge © 2026</p>
     </footer>
 
-    <!-- Edit Toolbar -->
-    <div class="edit-toolbar" id="editToolbar">
-        <span style="font-weight: 600; color: var(--dark);"><i class="fas fa-edit"></i> Edit Mode</span>
-        <button class="btn btn-success" onclick="saveChanges()">
-            <i class="fas fa-save"></i> Save Changes
-        </button>
-        <button class="btn btn-secondary" onclick="exportHTML()">
-            <i class="fas fa-download"></i> Export
-        </button>
-        <button class="btn btn-danger" onclick="toggleEditMode()">
-            <i class="fas fa-times"></i> Exit
-        </button>
-    </div>
-
-    <!-- Edit Modal -->
-    <div class="modal-overlay" id="editModal">
-        <div class="edit-modal">
-            <div class="modal-header">
-                <h2>Edit Content</h2>
-            </div>
-            <div class="form-group">
-                <label>Content</label>
-                <textarea id="editTextarea"></textarea>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-success" onclick="saveContent()">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i> Changes saved successfully!
-    </div>
-
-    <script>
-        // Global state
-        let editMode = false;
-        let currentEditingElement = null;
-        let nextSkillId = 5;
-        let nextProjectId = 4;
-        let nextExpId = 3;
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if edit mode should be enabled from URL
-            if (window.location.hash === '#edit') {
-                enableEditMode();
-            }
-
-            // Smooth scroll for navigation
-            document.querySelectorAll('nav a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-                        this.classList.add('active');
-                    }
-                });
-            });
-
-            // Setup editable elements
-            setupEditableElements();
-        });
-
-        // Enable Edit Mode
-        function enableEditMode() {
-            editMode = true;
-            document.body.classList.add('edit-mode');
-            document.getElementById('editToolbar').style.display = 'flex';
-        }
-
-        // Toggle Edit Mode
-        function toggleEditMode() {
-            editMode = !editMode;
-            if (editMode) {
-                enableEditMode();
-            } else {
-                document.body.classList.remove('edit-mode');
-                document.getElementById('editToolbar').style.display = 'none';
-            }
-        }
-
-        // Setup editable elements
-        function setupEditableElements() {
-            document.querySelectorAll('.editable').forEach(el => {
-                el.addEventListener('click', function() {
-                    if (!editMode) return;
-                    openModal(this);
-                });
-            });
-        }
-
-        // Modal functions
-        function openModal(element) {
-            currentEditingElement = element;
-            document.getElementById('editTextarea').value = element.textContent;
-            document.getElementById('editModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('editModal').classList.remove('active');
-            currentEditingElement = null;
-        }
-
-        function saveContent() {
-            if (currentEditingElement) {
-                const newValue = document.getElementById('editTextarea').value;
-                currentEditingElement.textContent = newValue;
-                currentEditingElement.classList.add('edited');
-            }
-            closeModal();
-        }
-
-        // Save changes
-        function saveChanges() {
-            showNotification();
-        }
-
-        // Export as single HTML file
-        function exportHTML() {
-            const html = document.documentElement.outerHTML;
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'portfolio.html';
-            a.click();
-            URL.revokeObjectURL(url);
-            showNotification('Portfolio exported successfully!');
-        }
-
-        // Show notification
-        function showNotification(message = 'Changes saved successfully!') {
-            const notif = document.getElementById('notification');
-            notif.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
-            notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 3000);
-        }
-
-        // Photo change
-        function changePhoto() {
-            document.getElementById('photoInput').click();
-        }
-
-        function handlePhotoChange(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profileImage').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Project images
-        function changeProjectImage(projectId) {
-            document.getElementById(`projectImg${projectId}`).click();
-        }
-
-        function handleProjectImageChange(event, projectId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const card = document.querySelector(`[data-project-id="${projectId}"]`);
-                    card.querySelector('img').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Add/Remove Skills
-        function addSkill() {
-            const grid = document.getElementById('skillsGrid');
-            const id = nextSkillId++;
-            const skillNames = ['R Programming', 'Excel VBA', 'Apache Spark', 'Google Analytics'];
-            const icons = ['fas fa-code', 'fas fa-file-excel', 'fas fa-server', 'fas fa-chart-line'];
-            
-            const skillName = skillNames[Math.floor(Math.random() * skillNames.length)];
-            const icon = icons[Math.floor(Math.random() * icons.length)];
-            const level = Math.floor(Math.random() * 20) + 80;
-
-            const card = document.createElement('div');
-            card.className = 'skill-card';
-            card.setAttribute('data-skill-id', id);
-            card.innerHTML = `
-                <button class="remove-skill" onclick="removeSkill(${id})"><i class="fas fa-times"></i></button>
-                <div class="skill-icon"><i class="${icon}"></i></div>
-                <h3 class="editable" data-section
+</body>
+</html>
